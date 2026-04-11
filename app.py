@@ -13,25 +13,21 @@ st.set_page_config(page_title="CFB Simulator", layout="wide")
 
 st.title("🏆 College Football Playoff Simulator")
 
-# -----------------------------
-# LOAD DATA
-# -----------------------------
+
 @st.cache_data
 def load_data():
     return pd.read_csv("full_data.csv")
 
 df = load_data()
 
-# -----------------------------
-# USER INPUT
-# -----------------------------
+
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    start_year = st.number_input("Start Year", min_value=2024, value=2027)
+    start_year = st.number_input("Start Year", min_value=2026, value=2036)
 
 with col2:
-    end_year = st.number_input("End Year", min_value=2024, value=2027)
+    end_year = st.number_input("End Year", min_value=start_year, value=2036)
 
 with col3:
     sim_size = st.selectbox("Simulations", [10, 50, 100, 500, 1000])
@@ -39,14 +35,10 @@ with col3:
 chaos = st.slider("Chaos Level", 0.01, 0.15, 0.075, 0.005)
 st.caption("🎲 Lower = predictable • Higher = chaos & upsets")
 
-# -----------------------------
-# DEFAULT MODELS
-# -----------------------------
+
 model_options = ["Logistic Regression", "Random Forest", "KNN"]
 
-# -----------------------------
-# MODEL EVALUATION
-# -----------------------------
+
 if st.button("📊 Evaluate Models (Optional)"):
 
     train_df = df[df["Year"].between(2013, 2019)]
@@ -79,9 +71,7 @@ if st.button("📊 Evaluate Models (Optional)"):
 
     st.session_state["accuracy_df"] = acc_df
 
-# -----------------------------
-# SHOW MODEL ACCURACY
-# -----------------------------
+
 if "accuracy_df" in st.session_state:
 
     st.subheader("📊 Model Accuracy")
@@ -99,14 +89,10 @@ if "accuracy_df" in st.session_state:
 
     model_options = acc_df["Model"].tolist()
 
-# -----------------------------
-# MODEL SELECTION
-# -----------------------------
+
 model_choice = st.selectbox("Choose Model", model_options)
 
-# -----------------------------
-# RUN SIMULATION
-# -----------------------------
+
 if st.button("🚀 Run Simulation"):
 
     train_df = df[df["Year"].between(2013, 2019)]
@@ -162,12 +148,7 @@ if st.button("🚀 Run Simulation"):
     st.session_state["years"] = list(all_results.keys())
     st.session_state["idx"] = 0
 
-# -----------------------------
-# DISPLAY RESULTS
-# -----------------------------
-# -----------------------------
-# DISPLAY RESULTS
-# -----------------------------
+
 if "all_results" in st.session_state:
 
     idx = st.session_state["idx"]
@@ -183,9 +164,7 @@ if "all_results" in st.session_state:
 
     tab1, tab2 = st.tabs(["📊 Analytics", "🏆 Bracket"])
 
-    # -----------------------------
-    # TAB 1: ANALYTICS (UNCHANGED)
-    # -----------------------------
+    
     with tab1:
 
         df_results = df_results.sort_values(by="Win %", ascending=True)
@@ -249,9 +228,7 @@ if "all_results" in st.session_state:
 
         st.dataframe(df_results)
 
-    # -----------------------------
-    # TAB 2: BRACKET (UPGRADED)
-    # -----------------------------
+    
     with tab2:
 
         st.subheader("🏆 Playoff Bracket")
@@ -340,9 +317,7 @@ if "all_results" in st.session_state:
 
         st.success(f"🏆 Champion: {champ['Team']}")
 
-    # -----------------------------
-    # NAVIGATION
-    # -----------------------------
+    
     col1, col2, col3 = st.columns([1,2,1])
 
     with col1:
