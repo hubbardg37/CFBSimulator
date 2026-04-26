@@ -1,6 +1,7 @@
 AI College Football Playoff Predictor and Simulator
 
 AI driven project to predict college football playoff outcomes using historical data and machine learning models.
+
 How To Run:
 1. pip install -r requirements.txt
 2. streamlit run app.py
