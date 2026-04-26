@@ -1,6 +1,7 @@
 AI College Football Playoff Predictor and Simulator
 
 Overview
+
 AI driven project to predict college football playoff outcomes using historical data and machine learning models.
 
 How To Run:
